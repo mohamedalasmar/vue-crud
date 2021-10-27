@@ -20,9 +20,10 @@ Route::get('/', function () {
 
 // Route::view('header', 'vue');
 
-Route::prefix('header')->group(function(){
-Route::view('/','vue');
-Route::post('create',[PostController::class,'createPost']);
+Route::prefix('header')->group(function () {
+    Route::view('/', 'vue');
+    Route::post('create', [PostController::class, 'createPost']);
+    Route::get('get', [PostController::class, 'getPosts']);
 });
 
 // Auth::routes();
