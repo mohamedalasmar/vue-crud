@@ -2147,6 +2147,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -2155,7 +2159,8 @@ __webpack_require__.r(__webpack_exports__);
         title: "",
         body: ""
       },
-      errors: []
+      errors: [],
+      tests: {}
     };
   },
   methods: {
@@ -2172,13 +2177,31 @@ __webpack_require__.r(__webpack_exports__);
           });
           _this.errors = [];
           _this.post = {
-            id: '',
-            title: '',
-            body: ''
+            id: "",
+            title: "",
+            body: ""
           }; // window.location.href = '/header'
         }
       });
-    }
+    },
+    getPosts: function getPosts() {
+      var _this2 = this;
+
+      axios.get('header/get').then(function (response) {
+        _this2.tests = response.data.data;
+      });
+    },
+    created: function created() {
+      this.getPosts();
+    } // getPosts() {
+    //     axios.get("get").then(response => {
+    //         this.posts = response.data.data
+    //     })
+    // },
+    // created() {
+    //     this.getPosts()
+    // }
+
   }
 });
 
@@ -41242,102 +41265,115 @@ var render = function() {
           "div",
           { staticClass: "modal-dialog", attrs: { role: "document" } },
           [
-            _c("div", { staticClass: "modal-content" }, [
-              _vm._m(0),
-              _vm._v(" "),
-              _c("div", { staticClass: "modal-body" }, [
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.post.title,
-                      expression: "post.title"
-                    }
-                  ],
-                  class: [
-                    "form-control my-2",
-                    _vm.errors.title ? "is-invalid" : ""
-                  ],
-                  attrs: { placeholder: "Please!Enter Your Title" },
-                  domProps: { value: _vm.post.title },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
+            _c(
+              "div",
+              { staticClass: "modal-content" },
+              [
+                _vm._m(0),
+                _vm._v(" "),
+                _c("div", { staticClass: "modal-body" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.post.title,
+                        expression: "post.title"
                       }
-                      _vm.$set(_vm.post, "title", $event.target.value)
-                    }
-                  }
-                }),
-                _vm._v(" "),
-                _vm.errors.title
-                  ? _c("span", { staticClass: "text-danger p-1" }, [
-                      _vm._v(_vm._s(_vm.errors.title[0]))
-                    ])
-                  : _vm._e(),
-                _vm._v(" "),
-                _c("textarea", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.post.body,
-                      expression: "post.body"
-                    }
-                  ],
-                  class: [
-                    "form-control my-2",
-                    _vm.errors.body ? "is-invalid" : ""
-                  ],
-                  attrs: { placeholder: "Please!Enter Your Post" },
-                  domProps: { value: _vm.post.body },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
+                    ],
+                    class: [
+                      "form-control my-2",
+                      _vm.errors.title ? "is-invalid" : ""
+                    ],
+                    attrs: { placeholder: "Please!Enter Your Title" },
+                    domProps: { value: _vm.post.title },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.post, "title", $event.target.value)
                       }
-                      _vm.$set(_vm.post, "body", $event.target.value)
                     }
-                  }
-                }),
+                  }),
+                  _vm._v(" "),
+                  _vm.errors.title
+                    ? _c("span", { staticClass: "text-danger p-1" }, [
+                        _vm._v(_vm._s(_vm.errors.title[0]))
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c("textarea", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.post.body,
+                        expression: "post.body"
+                      }
+                    ],
+                    class: [
+                      "form-control my-2",
+                      _vm.errors.body ? "is-invalid" : ""
+                    ],
+                    attrs: { placeholder: "Please!Enter Your Post" },
+                    domProps: { value: _vm.post.body },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.post, "body", $event.target.value)
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _vm.errors.body
+                    ? _c("span", { staticClass: "text-danger p-1" }, [
+                        _vm._v(_vm._s(_vm.errors.body[0]))
+                      ])
+                    : _vm._e()
+                ]),
                 _vm._v(" "),
-                _vm.errors.body
-                  ? _c("span", { staticClass: "text-danger p-1" }, [
-                      _vm._v(_vm._s(_vm.errors.body[0]))
-                    ])
-                  : _vm._e()
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "modal-footer" }, [
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-secondary",
-                    attrs: { type: "button", "data-dismiss": "modal" }
-                  },
-                  [
-                    _vm._v(
-                      "\n                        Close\n                    "
-                    )
-                  ]
-                ),
+                _c("div", { staticClass: "modal-footer" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-secondary",
+                      attrs: { type: "button", "data-dismiss": "modal" }
+                    },
+                    [
+                      _vm._v(
+                        "\n                        Close\n                    "
+                      )
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-primary",
+                      attrs: { type: "button" },
+                      on: { click: _vm.createPost }
+                    },
+                    [
+                      _vm._v(
+                        "\n                        New Post\n                    "
+                      )
+                    ]
+                  )
+                ]),
                 _vm._v(" "),
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-primary",
-                    attrs: { type: "button" },
-                    on: { click: _vm.createPost }
-                  },
-                  [
-                    _vm._v(
-                      "\n                        New Post\n                    "
-                    )
-                  ]
-                )
-              ])
-            ])
+                _vm._l(_vm.tests, function(test) {
+                  return _c("div", { key: test.id }, [
+                    _c("h3", [_vm._v(_vm._s(test.title))]),
+                    _vm._v(" "),
+                    _c("p", [_vm._v(_vm._s(test.body))])
+                  ])
+                })
+              ],
+              2
+            )
           ]
         )
       ]
