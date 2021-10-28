@@ -74,14 +74,15 @@
                             New Post
                         </button>
                     </div>
-                    <div v-for="test in tests" :key="test.id">
-                        <h3>{{test.title}}</h3>
-                        <p>{{test.body}}</p>
-                    </div>
                 </div>
             </div>
         </div>
+            <div v-for="post in posts" :key="post.id">
+            <h3>{{ post.title }}</h3>
+            <p>{{ post.body }}</p>
+        </div>
     </div>
+
 </template>
 
 <script>
@@ -93,9 +94,9 @@ export default {
                 title: "",
                 body: ""
             },
-            errors: [],
-            tests:{}
-        }
+            posts: {},
+            errors: []
+        };
     },
     methods: {
         createPost() {
@@ -113,27 +114,19 @@ export default {
                         title: "",
                         body: ""
                     };
-                    // window.location.href = '/header'
                 }
             });
         },
 
-        getPosts(){
-            axios.get('header/get').then(response=>{
-                this.tests = response.data.data
-            })
-        },
-        created(){
-            this.getPosts()
+        getPosts() {
+            axios.get("header/get").then(response => {
+                this.posts = response.data.data;
+            });
         }
-        // getPosts() {
-        //     axios.get("get").then(response => {
-        //         this.posts = response.data.data
-        //     })
-        // },
-        // created() {
-        //     this.getPosts()
-        // }
+    },
+
+    created() {
+        this.getPosts();
     }
 };
 </script>

@@ -18,7 +18,6 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::prefix('header')->group(function(){
-Route::post('create',[PostController::class,'createPost']);
+
 Route::get('get', [PostController::class,'getPosts']);
-});
+

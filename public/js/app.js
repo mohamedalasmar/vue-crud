@@ -2151,6 +2151,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -2159,8 +2160,8 @@ __webpack_require__.r(__webpack_exports__);
         title: "",
         body: ""
       },
-      errors: [],
-      tests: {}
+      posts: {},
+      errors: []
     };
   },
   methods: {
@@ -2180,28 +2181,20 @@ __webpack_require__.r(__webpack_exports__);
             id: "",
             title: "",
             body: ""
-          }; // window.location.href = '/header'
+          };
         }
       });
     },
     getPosts: function getPosts() {
       var _this2 = this;
 
-      axios.get('header/get').then(function (response) {
-        _this2.tests = response.data.data;
+      axios.get("header/get").then(function (response) {
+        _this2.posts = response.data.data;
       });
-    },
-    created: function created() {
-      this.getPosts();
-    } // getPosts() {
-    //     axios.get("get").then(response => {
-    //         this.posts = response.data.data
-    //     })
-    // },
-    // created() {
-    //     this.getPosts()
-    // }
-
+    }
+  },
+  created: function created() {
+    this.getPosts();
   }
 });
 
@@ -41234,41 +41227,40 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c(
-      "button",
-      {
-        staticClass: "btn btn-success btn-sm float-right",
-        attrs: {
-          type: "button",
-          "data-toggle": "modal",
-          "data-target": "#exampleModal"
-        }
-      },
-      [_vm._v("\n        New Post\n    ")]
-    ),
-    _vm._v(" "),
-    _c(
-      "div",
-      {
-        staticClass: "modal fade",
-        attrs: {
-          id: "exampleModal",
-          tabindex: "-1",
-          role: "dialog",
-          "aria-labelledby": "exampleModalLabel",
-          "aria-hidden": "true"
-        }
-      },
-      [
-        _c(
-          "div",
-          { staticClass: "modal-dialog", attrs: { role: "document" } },
-          [
-            _c(
-              "div",
-              { staticClass: "modal-content" },
-              [
+  return _c(
+    "div",
+    [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-success btn-sm float-right",
+          attrs: {
+            type: "button",
+            "data-toggle": "modal",
+            "data-target": "#exampleModal"
+          }
+        },
+        [_vm._v("\n        New Post\n    ")]
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          staticClass: "modal fade",
+          attrs: {
+            id: "exampleModal",
+            tabindex: "-1",
+            role: "dialog",
+            "aria-labelledby": "exampleModalLabel",
+            "aria-hidden": "true"
+          }
+        },
+        [
+          _c(
+            "div",
+            { staticClass: "modal-dialog", attrs: { role: "document" } },
+            [
+              _c("div", { staticClass: "modal-content" }, [
                 _vm._m(0),
                 _vm._v(" "),
                 _c("div", { staticClass: "modal-body" }, [
@@ -41362,23 +41354,23 @@ var render = function() {
                       )
                     ]
                   )
-                ]),
-                _vm._v(" "),
-                _vm._l(_vm.tests, function(test) {
-                  return _c("div", { key: test.id }, [
-                    _c("h3", [_vm._v(_vm._s(test.title))]),
-                    _vm._v(" "),
-                    _c("p", [_vm._v(_vm._s(test.body))])
-                  ])
-                })
-              ],
-              2
-            )
-          ]
-        )
-      ]
-    )
-  ])
+                ])
+              ])
+            ]
+          )
+        ]
+      ),
+      _vm._v(" "),
+      _vm._l(_vm.posts, function(post) {
+        return _c("div", { key: post.id }, [
+          _c("h3", [_vm._v(_vm._s(post.title))]),
+          _vm._v(" "),
+          _c("p", [_vm._v(_vm._s(post.body))])
+        ])
+      })
+    ],
+    2
+  )
 }
 var staticRenderFns = [
   function() {
