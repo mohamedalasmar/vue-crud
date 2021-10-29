@@ -2151,6 +2151,31 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -2159,8 +2184,9 @@ __webpack_require__.r(__webpack_exports__);
         title: "",
         body: ""
       },
-      errors: [],
-      tests: {}
+      edit: false,
+      posts: {},
+      errors: []
     };
   },
   methods: {
@@ -2171,6 +2197,8 @@ __webpack_require__.r(__webpack_exports__);
         if (response.data.status === "error") {
           _this.errors = response.data.errors;
         } else if (response.data.status == "success") {
+          _this.unshift(response.data.data);
+
           Toast.fire({
             icon: "success",
             title: "Created Successfully"
@@ -2180,28 +2208,44 @@ __webpack_require__.r(__webpack_exports__);
             id: "",
             title: "",
             body: ""
-          }; // window.location.href = '/header'
+          };
+        }
+      });
+    },
+    editPosts: function editPosts(post) {
+      this.post = post;
+      this.edit = true;
+    },
+    updatePosts: function updatePosts() {
+      var _this2 = this;
+
+      axios.put("header/edit/" + this.post.id, this.post).then(function (response) {
+        if (response.data.status === "error") {
+          _this2.errors = response.data.errors;
+        } else if (response.data.status == "success") {
+          Toast.fire({
+            icon: "success",
+            title: "Updated Successfully"
+          });
+          _this2.errors = [];
+          _this2.post = {
+            id: "",
+            title: "",
+            body: ""
+          };
         }
       });
     },
     getPosts: function getPosts() {
-      var _this2 = this;
+      var _this3 = this;
 
-      axios.get('header/get').then(function (response) {
-        _this2.tests = response.data.data;
+      axios.get("header/get").then(function (response) {
+        _this3.posts = response.data.data;
       });
-    },
-    created: function created() {
-      this.getPosts();
-    } // getPosts() {
-    //     axios.get("get").then(response => {
-    //         this.posts = response.data.data
-    //     })
-    // },
-    // created() {
-    //     this.getPosts()
-    // }
-
+    }
+  },
+  created: function created() {
+    this.getPosts();
   }
 });
 
@@ -41234,42 +41278,69 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c(
-      "button",
-      {
-        staticClass: "btn btn-success btn-sm float-right",
-        attrs: {
-          type: "button",
-          "data-toggle": "modal",
-          "data-target": "#exampleModal"
-        }
-      },
-      [_vm._v("\n        New Post\n    ")]
-    ),
-    _vm._v(" "),
-    _c(
-      "div",
-      {
-        staticClass: "modal fade",
-        attrs: {
-          id: "exampleModal",
-          tabindex: "-1",
-          role: "dialog",
-          "aria-labelledby": "exampleModalLabel",
-          "aria-hidden": "true"
-        }
-      },
-      [
-        _c(
-          "div",
-          { staticClass: "modal-dialog", attrs: { role: "document" } },
-          [
-            _c(
-              "div",
-              { staticClass: "modal-content" },
-              [
-                _vm._m(0),
+  return _c(
+    "div",
+    [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-success btn-sm float-right",
+          attrs: {
+            type: "button",
+            "data-toggle": "modal",
+            "data-target": "#exampleModal"
+          }
+        },
+        [_vm._v("\n        New Post\n    ")]
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          staticClass: "modal fade",
+          attrs: {
+            id: "exampleModal",
+            tabindex: "-1",
+            role: "dialog",
+            "aria-labelledby": "exampleModalLabel",
+            "aria-hidden": "true"
+          }
+        },
+        [
+          _c(
+            "div",
+            { staticClass: "modal-dialog", attrs: { role: "document" } },
+            [
+              _c("div", { staticClass: "modal-content" }, [
+                _c("div", { staticClass: "modal-header" }, [
+                  _vm.edit
+                    ? _c(
+                        "h5",
+                        {
+                          staticClass: "modal-title",
+                          attrs: { id: "exampleModalLabel" }
+                        },
+                        [
+                          _vm._v(
+                            "\n                        Edit Post\n                    "
+                          )
+                        ]
+                      )
+                    : _c(
+                        "h5",
+                        {
+                          staticClass: "modal-title",
+                          attrs: { id: "exampleModalLabel" }
+                        },
+                        [
+                          _vm._v(
+                            "\n                        Create Post\n                    "
+                          )
+                        ]
+                      ),
+                  _vm._v(" "),
+                  _vm._m(0)
+                ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "modal-body" }, [
                   _c("input", {
@@ -41349,62 +41420,90 @@ var render = function() {
                     ]
                   ),
                   _vm._v(" "),
-                  _c(
-                    "button",
-                    {
-                      staticClass: "btn btn-primary",
-                      attrs: { type: "button" },
-                      on: { click: _vm.createPost }
-                    },
-                    [
-                      _vm._v(
-                        "\n                        New Post\n                    "
+                  _vm.edit
+                    ? _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-primary",
+                          attrs: { type: "button" },
+                          on: {
+                            click: function($event) {
+                              return _vm.updatePosts()
+                            }
+                          }
+                        },
+                        [
+                          _vm._v(
+                            "\n                        Update\n                    "
+                          )
+                        ]
                       )
-                    ]
-                  )
-                ]),
-                _vm._v(" "),
-                _vm._l(_vm.tests, function(test) {
-                  return _c("div", { key: test.id }, [
-                    _c("h3", [_vm._v(_vm._s(test.title))]),
-                    _vm._v(" "),
-                    _c("p", [_vm._v(_vm._s(test.body))])
-                  ])
-                })
-              ],
-              2
-            )
-          ]
-        )
-      ]
-    )
-  ])
+                    : _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-primary",
+                          attrs: { type: "button" },
+                          on: { click: _vm.createPost }
+                        },
+                        [
+                          _vm._v(
+                            "\n                        Create\n                    "
+                          )
+                        ]
+                      )
+                ])
+              ])
+            ]
+          )
+        ]
+      ),
+      _vm._v(" "),
+      _vm._l(_vm.posts, function(post) {
+        return _c("div", { key: post.id, staticClass: "mt-4" }, [
+          _c("h3", [_vm._v(_vm._s(post.title))]),
+          _vm._v(" "),
+          _c("p", [_vm._v(_vm._s(post.body))]),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-info btn-sm",
+              attrs: {
+                type: "button",
+                "data-toggle": "modal",
+                "data-target": "#exampleModal"
+              },
+              on: {
+                click: function($event) {
+                  return _vm.editPosts(post)
+                }
+              }
+            },
+            [_vm._v("\n            Edit\n        ")]
+          )
+        ])
+      })
+    ],
+    2
+  )
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "modal-header" }, [
-      _c(
-        "h5",
-        { staticClass: "modal-title", attrs: { id: "exampleModalLabel" } },
-        [_vm._v("\n                        New Post\n                    ")]
-      ),
-      _vm._v(" "),
-      _c(
-        "button",
-        {
-          staticClass: "close",
-          attrs: {
-            type: "button",
-            "data-dismiss": "modal",
-            "aria-label": "Close"
-          }
-        },
-        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
-      )
-    ])
+    return _c(
+      "button",
+      {
+        staticClass: "close",
+        attrs: {
+          type: "button",
+          "data-dismiss": "modal",
+          "aria-label": "Close"
+        }
+      },
+      [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+    )
   }
 ]
 render._withStripped = true

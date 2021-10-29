@@ -24,6 +24,7 @@ Route::prefix('header')->group(function () {
     Route::view('/', 'vue');
     Route::post('create', [PostController::class, 'createPost']);
     Route::get('get', [PostController::class, 'getPosts']);
+    Route::put('edit/{id}',[PostController::class,'updatePosts']);
 });
 
 // Auth::routes();

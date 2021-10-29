@@ -28,9 +28,27 @@ class PostController extends Controller
         return response()->json(['status' => 'success', 'data' => $post]);
     }
 
-    public function getPosts()
-    {
-        $tests = Post::all();
-        return response()->json(['status'=>'success','data'=>$tests]);
+    public function getPosts(){
+        $posts  = Post::all();
+        return  response()->json(['status'=>'success','data'=>$posts]);
     }
+
+    public function updatePosts(Request $request , $id)
+    {
+
+        $validator = Validator::make($request->all(), [
+            'title' => 'required|min:3',
+            'body' => 'required|min:3',
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['status' => 'error', 'errors' => $validator->errors()]);
+        }
+        $post = Post::findOrFail($id);
+        $post->title = $request->input('title');
+        $post->body = $request->input('body');
+        $post->save();
+        return response()->json(['status' => 'success', 'data' => $post]);
+    }
+
+
 }
