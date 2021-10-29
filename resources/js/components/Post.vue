@@ -22,8 +22,15 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">
-                            New Post
+                        <h5
+                            class="modal-title"
+                            id="exampleModalLabel"
+                            v-if="edit"
+                        >
+                            Edit Post
+                        </h5>
+                        <h5 class="modal-title" id="exampleModalLabel" v-else>
+                            Create Post
                         </h5>
                         <button
                             type="button"
@@ -67,22 +74,39 @@
                             Close
                         </button>
                         <button
+                            v-if="edit"
+                            type="button"
+                            class="btn btn-primary"
+                            @click="updatePosts()"
+                        >
+                            Update
+                        </button>
+                        <button
+                            v-else
                             type="button"
                             class="btn btn-primary"
                             @click="createPost"
                         >
-                            New Post
+                            Create
                         </button>
                     </div>
                 </div>
             </div>
         </div>
-            <div v-for="post in posts" :key="post.id">
+        <div v-for="post in posts" :key="post.id" class="mt-4">
             <h3>{{ post.title }}</h3>
             <p>{{ post.body }}</p>
+            <button
+                type="button"
+                data-toggle="modal"
+                data-target="#exampleModal"
+                class="btn btn-info btn-sm"
+                @click="editPosts(post)"
+            >
+                Edit
+            </button>
         </div>
     </div>
-
 </template>
 
 <script>
@@ -94,6 +118,7 @@ export default {
                 title: "",
                 body: ""
             },
+            edit: false,
             posts: {},
             errors: []
         };
@@ -104,9 +129,32 @@ export default {
                 if (response.data.status === "error") {
                     this.errors = response.data.errors;
                 } else if (response.data.status == "success") {
+                    this.unshift(response.data.data)
                     Toast.fire({
                         icon: "success",
                         title: "Created Successfully"
+                    });
+                    this.errors = [];
+                    this.post = {
+                        id: "",
+                        title: "",
+                        body: ""
+                    };
+                }
+            });
+        },
+        editPosts(post) {
+            this.post = post;
+            this.edit = true;
+        },
+        updatePosts() {
+            axios.put("header/edit/"+this.post.id, this.post).then(response => {
+                if (response.data.status === "error") {
+                    this.errors = response.data.errors;
+                } else if (response.data.status == "success") {
+                    Toast.fire({
+                        icon: "success",
+                        title: "Updated Successfully"
                     });
                     this.errors = [];
                     this.post = {
