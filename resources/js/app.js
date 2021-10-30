@@ -8,6 +8,8 @@ import Myheader from "./components/Myheader";
 import routes from "./routes";
 import Swal from "sweetalert2";
 window.Swal=Swal
+Vue.component("pagination", require("laravel-vue-pagination"));
+
 
 const Toast = Swal.mixin({
     toast: true,
