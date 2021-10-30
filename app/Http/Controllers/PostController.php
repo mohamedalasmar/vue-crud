@@ -28,12 +28,13 @@ class PostController extends Controller
         return response()->json(['status' => 'success', 'data' => $post]);
     }
 
-    public function getPosts(){
+    public function getPosts()
+    {
         $posts  = Post::all();
-        return  response()->json(['status'=>'success','data'=>$posts]);
+        return  response()->json(['status' => 'success', 'data' => $posts]);
     }
 
-    public function updatePosts(Request $request , $id)
+    public function updatePosts(Request $request, $id)
     {
 
         $validator = Validator::make($request->all(), [
@@ -50,5 +51,12 @@ class PostController extends Controller
         return response()->json(['status' => 'success', 'data' => $post]);
     }
 
-
+    public function deletePosts($id)
+    {
+        $post = Post::findOrFail($id);
+        $isDeleted = $post->delete();
+        if ($isDeleted) {
+            return response()->json(['status' => 'success', 'data' => $post]);
+        }
+    }
 }
