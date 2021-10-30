@@ -85,7 +85,7 @@
                             v-else
                             type="button"
                             class="btn btn-primary"
-                            @click="createPost"
+                            @click="createPost()"
                         >
                             Create
                         </button>
@@ -105,6 +105,14 @@
             >
                 Edit
             </button>
+
+            <button
+                type="button"
+                class="btn btn-danger btn-sm"
+                @click="deletePosts(post.id)"
+            >
+                Delete
+            </button>
         </div>
     </div>
 </template>
@@ -118,7 +126,7 @@ export default {
                 title: "",
                 body: ""
             },
-            edit: false,
+            edit: false, //To Change Create to Update
             posts: {},
             errors: []
         };
@@ -129,7 +137,6 @@ export default {
                 if (response.data.status === "error") {
                     this.errors = response.data.errors;
                 } else if (response.data.status == "success") {
-                    this.unshift(response.data.data)
                     Toast.fire({
                         icon: "success",
                         title: "Created Successfully"
@@ -148,20 +155,46 @@ export default {
             this.edit = true;
         },
         updatePosts() {
-            axios.put("header/edit/"+this.post.id, this.post).then(response => {
-                if (response.data.status === "error") {
-                    this.errors = response.data.errors;
-                } else if (response.data.status == "success") {
-                    Toast.fire({
-                        icon: "success",
-                        title: "Updated Successfully"
+            axios
+                .put("header/edit/" + this.post.id, this.post)
+                .then(response => {
+                    if (response.data.status === "error") {
+                        this.errors = response.data.errors;
+                    } else if (response.data.status == "success") {
+                        Toast.fire({
+                            icon: "success",
+                            title: "Updated Successfully"
+                        });
+                        this.errors = [];
+                        this.post = {
+                            id: "",
+                            title: "",
+                            body: ""
+                        };
+                    }
+                });
+        },
+        deletePosts(id) {
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, delete it!"
+            }).then(result => {
+                if (result.isConfirmed) {
+                    axios.delete("header/delete/" + id).then(response => {
+                        if (response.data.status == "success") {
+                            Swal.fire(
+                                "Deleted!",
+                                "Your file has been deleted.",
+                                "success"
+                            );
+                        }
+                        this.getPosts();
                     });
-                    this.errors = [];
-                    this.post = {
-                        id: "",
-                        title: "",
-                        body: ""
-                    };
                 }
             });
         },

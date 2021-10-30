@@ -25,6 +25,7 @@ Route::prefix('header')->group(function () {
     Route::post('create', [PostController::class, 'createPost']);
     Route::get('get', [PostController::class, 'getPosts']);
     Route::put('edit/{id}',[PostController::class,'updatePosts']);
+    Route::delete('delete/{id}',[PostController::class,'deletePosts']);
 });
 
 // Auth::routes();

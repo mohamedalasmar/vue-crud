@@ -2176,6 +2176,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -2185,6 +2193,7 @@ __webpack_require__.r(__webpack_exports__);
         body: ""
       },
       edit: false,
+      //To Change Create to Update
       posts: {},
       errors: []
     };
@@ -2197,8 +2206,6 @@ __webpack_require__.r(__webpack_exports__);
         if (response.data.status === "error") {
           _this.errors = response.data.errors;
         } else if (response.data.status == "success") {
-          _this.unshift(response.data.data);
-
           Toast.fire({
             icon: "success",
             title: "Created Successfully"
@@ -2236,11 +2243,34 @@ __webpack_require__.r(__webpack_exports__);
         }
       });
     },
-    getPosts: function getPosts() {
+    deletePosts: function deletePosts(id) {
       var _this3 = this;
 
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+      }).then(function (result) {
+        if (result.isConfirmed) {
+          axios["delete"]("header/delete/" + id).then(function (response) {
+            if (response.data.status == "success") {
+              Swal.fire("Deleted!", "Your file has been deleted.", "success");
+            }
+
+            _this3.getPosts();
+          });
+        }
+      });
+    },
+    getPosts: function getPosts() {
+      var _this4 = this;
+
       axios.get("header/get").then(function (response) {
-        _this3.posts = response.data.data;
+        _this4.posts = response.data.data;
       });
     }
   },
@@ -41443,7 +41473,11 @@ var render = function() {
                         {
                           staticClass: "btn btn-primary",
                           attrs: { type: "button" },
-                          on: { click: _vm.createPost }
+                          on: {
+                            click: function($event) {
+                              return _vm.createPost()
+                            }
+                          }
                         },
                         [
                           _vm._v(
@@ -41480,6 +41514,20 @@ var render = function() {
               }
             },
             [_vm._v("\n            Edit\n        ")]
+          ),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-danger btn-sm",
+              attrs: { type: "button" },
+              on: {
+                click: function($event) {
+                  return _vm.deletePosts(post.id)
+                }
+              }
+            },
+            [_vm._v("\n            Delete\n        ")]
           )
         ])
       })
