@@ -44,7 +44,7 @@
                     <div class="modal-body">
                         <input
                             :class="[
-                                'form-control my-2',
+                                'form-control mt-2',
                                 errors.title ? 'is-invalid' : ''
                             ]"
                             placeholder="Please!Enter Your Title"
@@ -55,7 +55,7 @@
                         }}</span>
                         <textarea
                             :class="[
-                                'form-control my-2',
+                                'form-control mt-2',
                                 errors.body ? 'is-invalid' : ''
                             ]"
                             placeholder="Please!Enter Your Post"
@@ -141,6 +141,7 @@ export default {
                         icon: "success",
                         title: "Created Successfully"
                     });
+                    this.getPosts()
                     this.errors = [];
                     this.post = {
                         id: "",

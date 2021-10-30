@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,7 +27,9 @@ Route::prefix('header')->group(function () {
     Route::get('get', [PostController::class, 'getPosts']);
     Route::put('edit/{id}',[PostController::class,'updatePosts']);
     Route::delete('delete/{id}',[PostController::class,'deletePosts']);
+    Route::post('register',[UserController::class,'register']);
 });
+
 
 // Auth::routes();
 
