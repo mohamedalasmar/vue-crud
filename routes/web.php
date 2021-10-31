@@ -28,6 +28,7 @@ Route::prefix('header')->group(function () {
     Route::put('edit/{id}',[PostController::class,'updatePosts']);
     Route::delete('delete/{id}',[PostController::class,'deletePosts']);
     Route::post('register',[UserController::class,'register']);
+    Route::post('login', [UserController::class, 'login']);
 });
 
 
