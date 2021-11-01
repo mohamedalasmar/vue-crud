@@ -22,13 +22,20 @@ class UserController extends Controller
 
     public function login()
     {
-        $credentials = request(['email', 'password']);
+        $credentials = request(['name', 'password']);
 
         if (!$token = auth()->attempt($credentials)) {
             return response()->json(['status'=>'success','token'=>$token]);
         }
 
         return response()->json(['status' => 'error']);
+    }
+
+    public function logout(){
+        auth()->logout();
+
+        return response()->json(['message' => 'User successfully signed out']);
+
     }
 
 }

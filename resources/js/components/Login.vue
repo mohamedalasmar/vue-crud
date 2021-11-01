@@ -4,7 +4,7 @@
             type="text"
             class="form-control mt-4"
             placeholder="Please!Enter Your Email"
-            v-model="user.email"
+            v-model="user.name"
         />
 
         <input
@@ -24,7 +24,7 @@ export default {
     data() {
         return {
             user: {
-                email: "",
+                name: "",
                 password: ""
             },
             error: false
@@ -36,12 +36,14 @@ export default {
                 if (response.data.status == "success") {
                     let token = response.data.token
                     localStorage.setItem("token", token)
+                    this.error = false
                       Toast.fire({
                             icon: "success",
                             title: "Login Successfully"
                         })
+
                 } else {
-                    this.error = false
+                    this.error = true
                 }
             })
         }
